@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import React, { useState, useEffect } from 'react';
 import Card from './card'
+import AddNewCard from './addCardForm'
 
 
 function replaceItem(items, newItem) {
@@ -13,8 +14,20 @@ function replaceItem(items, newItem) {
     });
 }
 
+function deleteItem(items, deletedItem) {
+    return items.filter(item => (item.id != deletedItem.id))
+}
+
+function addItem(items, newItem) {
+    return [...items, newItem]
+}
+
+
+
+
+
 function App() {
-    const [data, setdata] =useState([])
+    const [data, setdata] =useState([]);
 
     useEffect(() => {
         fetch('/data.json')
@@ -32,13 +45,30 @@ function App() {
       setdata(newData);
     }
 
+    const taskDelete =(task) => {
+        let newData = deleteItem(data, task);
+        setdata(newData)
+    }
+
+    const taskAdd =(task) => {
+        let newData = addItem(data, task);
+        setdata(newData)
+    }
+
+
+
     useEffect(() => {
         console.log("Updated JSON data:", data);
     }, [data])
 
 
+
+
     
-  return (
+  return (<>
+    <AddNewCard
+        taskAdd={taskAdd}
+    />
     <div className="container">
         <div>
            <h6>Backlog</h6>
@@ -47,6 +77,8 @@ function App() {
                     <Card
                         props={task}
                         taskChange={taskChange}
+                        taskAdd={taskAdd}
+                        taskDelete={taskDelete}
                         key={task.id}
                     />
                 ))
@@ -61,6 +93,8 @@ function App() {
                     <Card
                         props={task}
                         taskChange={taskChange}
+                        taskAdd={taskAdd}
+                        taskDelete={taskDelete}
                         key={task.id}
                     />
                 ))
@@ -75,6 +109,8 @@ function App() {
                     <Card
                         props={task}
                         taskChange={taskChange}
+                        taskAdd={taskAdd}
+                        taskDelete={taskDelete}
                         key={task.id}
                     />
                 ))
@@ -89,6 +125,8 @@ function App() {
                     <Card
                         props={task}
                         taskChange={taskChange}
+                        taskAdd={taskAdd}
+                        taskDelete={taskDelete}
                         key={task.id}
                     />
                 ))
@@ -98,6 +136,7 @@ function App() {
         </div>
       
       </div>
+      </>
   );
 }
 

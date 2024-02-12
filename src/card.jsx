@@ -10,7 +10,7 @@ function updateTask(item, key, value) {
 }
 
 
-function Card({props, taskChange}) {
+function Card({props, taskChange, taskAdd, taskDelete}) {
 
     const {status, assignee, title, description, priority} = props;
 
@@ -65,6 +65,10 @@ function Card({props, taskChange}) {
         setEditDescription(!editDescription);
     }
 
+    const deleteTask = () => {
+        taskDelete(props)
+    }
+
 
 
 
@@ -100,7 +104,7 @@ function Card({props, taskChange}) {
                   <option value="done" selected={status==="done"}>Done</option>
                 </select>
 
-                <select name="status" className="status" onChange={handlePriorityChange}>
+                <select name="priority" className="priority" onChange={handlePriorityChange}>
                   <option value="high" selected={priority==="high"}>High</option>
                   <option value="mid" selected={priority==="medium"}>Medium</option>
                   <option value="low" selected={priority==="low"}>Low</option>
@@ -114,6 +118,8 @@ function Card({props, taskChange}) {
                         <span>{assigneeInput}</span>
                         <button onClick={() => setEditAssignee(!editAssignee)}>🖋</button>
                     </div>}
+
+                <button className="delete-button" onClick={deleteTask}>Cancel the task</button>
             </div>
   );
 }
