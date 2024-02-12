@@ -44,6 +44,26 @@ body {
     border: none
 }
 
-.title{
+.card-input{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
 
+.card-input button{
+    height: fit-content;
+}
+
+.card-input span{
+    word-break: break-word;
+}
+
+.order-high{
+    order:1;
+}
+.order-mid{
+    order:2;
+}
+.order-low{
+    order:3;
 }

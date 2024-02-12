@@ -72,23 +72,23 @@ function Card({props, taskChange}) {
 
 
   return (
-            <div className="card" >
+            <div className={`card ${priority === "high" ? "order-high" : priority === "medium" ? "order-mid" : "order-low"}`}>
 
-                { editTitle ?  <div>
+                { editTitle ?  <div className="title card-input">
                     <input value={titleInput} onChange={(e) => setTitleInput(e.target.value)}/>
                     <button onClick={titleChange}>👍</button>
                     <button onClick={titleCancel}>👎</button>
-                </div>: <div>
+                </div>: <div className="title card-input">
                     <span>{titleInput}</span>
                     <button onClick={() => setEditTitle(!editTitle)}>🖋</button>
                 </div>}
 
 
-                { editDescription ?  <div>
-                    <input value={descriptionInput} onChange={(e) => setDescriptionInput(e.target.value)}/>
+                { editDescription ?  <div className="description card-input">
+                    <textarea rows={4} value={descriptionInput} onChange={(e) => setDescriptionInput(e.target.value)}/>
                     <button onClick={descriptionChange}>👍</button>
                     <button onClick={descriptionCancel}>👎</button>
-                </div>: <div>
+                </div>: <div className="description card-input">
                     <span>{descriptionInput}</span>
                     <button onClick={() => setEditDescription(!editDescription)}>🖋</button>
                 </div>}
@@ -99,22 +99,21 @@ function Card({props, taskChange}) {
                   <option value="in progress" selected={status==="in progress"}>In Progress</option>
                   <option value="done" selected={status==="done"}>Done</option>
                 </select>
+
                 <select name="status" className="status" onChange={handlePriorityChange}>
                   <option value="high" selected={priority==="high"}>High</option>
-                  <option value="mid" selected={priority==="mid"}>Mid</option>
+                  <option value="mid" selected={priority==="medium"}>Medium</option>
                   <option value="low" selected={priority==="low"}>Low</option>
                 </select>
 
-                <div>
-                    { editAssignee ?  <div>
+                    { editAssignee ?  <div className="assignee card-input">
                         <input value={assigneeInput} onChange={(e) => setAssigneeInput(e.target.value)}/>
                         <button onClick={assigneeChange}>👍</button>
                         <button onClick={assigneeCancel}>👎</button>
-                    </div>: <div>
+                    </div>: <div className="assignee card-input">
                         <span>{assigneeInput}</span>
                         <button onClick={() => setEditAssignee(!editAssignee)}>🖋</button>
                     </div>}
-                </div>
             </div>
   );
 }

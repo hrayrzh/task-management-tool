@@ -33,7 +33,7 @@ function App() {
     }
 
     useEffect(() => {
-        console.log(data);
+        console.log("Updated JSON data:", data);
     }, [data])
 
 
