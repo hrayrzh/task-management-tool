@@ -10,7 +10,7 @@ function updateTask(item, key, value) {
 }
 
 
-function Card({props, taskChange, taskAdd, taskDelete}) {
+function Card({props, taskChange, taskDelete}) {
 
     const {status, assignee, title, description, priority} = props;
 
@@ -66,6 +66,7 @@ function Card({props, taskChange, taskAdd, taskDelete}) {
     }
 
     const deleteTask = () => {
+        console.log(props);
         taskDelete(props)
     }
 
