@@ -1,6 +1,6 @@
-import ReactDOM from 'react-dom/client';
+// import ReactDOM from 'react-dom/client';
 import './index.css';
-import React, { useState, useEffect } from 'react';
+import {useState} from 'react';
 
 
 function updateTask(item, key, value) {
@@ -32,35 +32,35 @@ function Card({props, taskChange, taskDelete}) {
         taskChange(updatedTask);
     }
 
-    const assigneeChange = () =>{
+    const assigneeChange = () => {
         let updatedTask = updateTask(props, "assignee", assigneeInput);
         taskChange(updatedTask);
         setEditAssignee(!editAssignee);
     }
 
-    const assigneeCancel = () =>{
+    const assigneeCancel = () => {
         setAssigneeInput(assignee);
         setEditAssignee(!editAssignee);
     }
 
-    const titleChange = () =>{
+    const titleChange = () => {
         let updatedTask = updateTask(props, "title", titleInput);
         taskChange(updatedTask);
         setEditTitle(!editTitle);
     }
 
-    const titleCancel = () =>{
+    const titleCancel = () => {
         setTitleInput(title);
         setEditTitle(!editTitle);
     }
 
-    const descriptionChange = () =>{
+    const descriptionChange = () => {
         let updatedTask = updateTask(props, "description", descriptionInput);
         taskChange(updatedTask);
         setEditDescription(!editDescription);
     }
 
-    const descriptionCancel = () =>{
+    const descriptionCancel = () => {
         setDescriptionInput(description);
         setEditDescription(!editDescription);
     }
@@ -71,58 +71,54 @@ function Card({props, taskChange, taskDelete}) {
     }
 
 
+    return (
+        <div
+            className={`card ${priority === "high" ? "order-high" : priority === "medium" ? "order-mid" : "order-low"}`}>
+
+            {editTitle ? <div className="title card-input">
+                <input value={titleInput} onChange={(e) => setTitleInput(e.target.value)}/>
+                <button onClick={titleChange}>👍</button>
+                <button onClick={titleCancel}>👎</button>
+            </div> : <div className="title card-input">
+                <span>{titleInput}</span>
+                <button onClick={() => setEditTitle(!editTitle)}>🖋</button>
+            </div>}
 
 
+            {editDescription ? <div className="description card-input">
+                <textarea rows={4} value={descriptionInput} onChange={(e) => setDescriptionInput(e.target.value)}/>
+                <button onClick={descriptionChange}>👍</button>
+                <button onClick={descriptionCancel}>👎</button>
+            </div> : <div className="description card-input">
+                <span>{descriptionInput}</span>
+                <button onClick={() => setEditDescription(!editDescription)}>🖋</button>
+            </div>}
 
+            <select name="status" className="status" defaultValue={status} onChange={handleStatusChange}>
+                <option value="backlog">Backlog</option>
+                <option value="todo">ToDo</option>
+                <option value="in progress">In Progress</option>
+                <option value="done">Done</option>
+            </select>
 
+            <select name="priority" className="priority" defaultValue={priority} onChange={handlePriorityChange}>
+                <option value="high">High</option>
+                <option value="mid">Medium</option>
+                <option value="low">Low</option>
+            </select>
 
-  return (
-            <div className={`card ${priority === "high" ? "order-high" : priority === "medium" ? "order-mid" : "order-low"}`}>
+            {editAssignee ? <div className="assignee card-input">
+                <input value={assigneeInput} onChange={(e) => setAssigneeInput(e.target.value)}/>
+                <button onClick={assigneeChange}>👍</button>
+                <button onClick={assigneeCancel}>👎</button>
+            </div> : <div className="assignee card-input">
+                <span>{assigneeInput}</span>
+                <button onClick={() => setEditAssignee(!editAssignee)}>🖋</button>
+            </div>}
 
-                { editTitle ?  <div className="title card-input">
-                    <input value={titleInput} onChange={(e) => setTitleInput(e.target.value)}/>
-                    <button onClick={titleChange}>👍</button>
-                    <button onClick={titleCancel}>👎</button>
-                </div>: <div className="title card-input">
-                    <span>{titleInput}</span>
-                    <button onClick={() => setEditTitle(!editTitle)}>🖋</button>
-                </div>}
-
-
-                { editDescription ?  <div className="description card-input">
-                    <textarea rows={4} value={descriptionInput} onChange={(e) => setDescriptionInput(e.target.value)}/>
-                    <button onClick={descriptionChange}>👍</button>
-                    <button onClick={descriptionCancel}>👎</button>
-                </div>: <div className="description card-input">
-                    <span>{descriptionInput}</span>
-                    <button onClick={() => setEditDescription(!editDescription)}>🖋</button>
-                </div>}
-
-                <select name="status" className="status" onChange={handleStatusChange}>
-                  <option value="backlog" selected={status==="backlog"}>Backlog</option>
-                  <option value="todo" selected={status==="todo"}>ToDo</option>
-                  <option value="in progress" selected={status==="in progress"}>In Progress</option>
-                  <option value="done" selected={status==="done"}>Done</option>
-                </select>
-
-                <select name="priority" className="priority" onChange={handlePriorityChange}>
-                  <option value="high" selected={priority==="high"}>High</option>
-                  <option value="mid" selected={priority==="medium"}>Medium</option>
-                  <option value="low" selected={priority==="low"}>Low</option>
-                </select>
-
-                    { editAssignee ?  <div className="assignee card-input">
-                        <input value={assigneeInput} onChange={(e) => setAssigneeInput(e.target.value)}/>
-                        <button onClick={assigneeChange}>👍</button>
-                        <button onClick={assigneeCancel}>👎</button>
-                    </div>: <div className="assignee card-input">
-                        <span>{assigneeInput}</span>
-                        <button onClick={() => setEditAssignee(!editAssignee)}>🖋</button>
-                    </div>}
-
-                <button className="delete-button" onClick={deleteTask}>Cancel the task</button>
-            </div>
-  );
+            <button className="delete-button" onClick={deleteTask}>Cancel the task</button>
+        </div>
+    );
 }
 
 export default Card;
