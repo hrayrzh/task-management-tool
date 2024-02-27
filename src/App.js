@@ -1,9 +1,11 @@
 // import ReactDOM from 'react-dom/client';
 import './index.css';
-import React, {useEffect, useReducer} from 'react';
+import React, {useEffect, useReducer, useState} from 'react';
 import Card from './card'
-import AddNewCard from './addCardForm'
+import AddNewCard from './addNewCard'
+import AddNewBtn from './addNewBtn'
 import ACTIONS from "./ACTIONS";
+import Resize from "./Resize";
 
 
 // function replaceItem(items, newItem) {
@@ -59,8 +61,16 @@ function reducer(state, action) {
 
 function App() {
 
+
     const [data, dispatch] = useReducer(reducer, []);
+    const [newTaskMode, setNewTaskMode] = useState(true);
     // const [data, setdata] =useState([]);
+
+
+
+    useEffect(() => {
+        console.log(newTaskMode)
+    }, [newTaskMode])
 
 
     useEffect(() => {
@@ -114,8 +124,17 @@ function App() {
 
 
     return (<>
+
+            <Resize />
+
             <AddNewCard
                 taskAdd={taskAdd}
+                setNewTaskMode={setNewTaskMode}
+                isopen = {newTaskMode}
+            />
+            <AddNewBtn
+                setNewTaskMode={setNewTaskMode}
+                isopen = {newTaskMode}
             />
             <div className="container">
                 <div>

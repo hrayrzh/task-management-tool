@@ -1,6 +1,7 @@
 // import ReactDOM from 'react-dom/client';
 import './index.css';
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
+import {createPortal} from "react-dom";
 
 function createItem(t, d, s, p, a) {
     let item = {};
@@ -13,24 +14,25 @@ function createItem(t, d, s, p, a) {
     return item;
 }
 
-function AddNewCard({taskAdd}) {
+function AddNewCard({taskAdd, setNewTaskMode, isopen}) {
 
-    const [newTaskMode, setNewTaskMode] = useState(true);
     const [title, setTitle] = useState("New Title");
     const [description, setDescription] = useState("New Description");
     const [assignee, setAssignee] = useState("Assignee");
     const [status, setStatus] = useState("backlog");
     const [priority, setPriority] = useState("low");
+    const contentRef = useRef(null); // { current: null }
 
 
-    const addBtn = () => {
-        setNewTaskMode(false);
-        document.body.classList.add('hidden-overflow')
-    }
 
     const cancelBtn = () => {
-        setNewTaskMode(true);
+        setNewTaskMode(!isopen);
         document.body.classList.remove('hidden-overflow')
+    }
+    const testclick = (e) => {
+        if (e.target !== contentRef.current && e.target.contains(contentRef.current)){
+            cancelBtn()
+        }
     }
 
     const addNewTask = () => {
@@ -39,11 +41,12 @@ function AddNewCard({taskAdd}) {
         cancelBtn();
     }
 
-    return (
+
+    return createPortal(
         <>
 
-            <div className={`${newTaskMode ? "d-none new-task-popup" : "new-task-popup"}`}>
-                <div>
+            <div className={`${isopen ? "d-none new-task-popup" : "new-task-popup"}`} onClick={testclick}>
+                <div ref={contentRef}>
                     <input type="text" value={title}
                            onChange={(e) => e.target.value ? setTitle(e.target.value) : setTitle("New Title")}/>
 
@@ -73,10 +76,7 @@ function AddNewCard({taskAdd}) {
                     </div>
                 </div>
             </div>
-            <div>
-                <button className='new-task-btn' onClick={addBtn}> Add New Task</button>
-            </div>
-        </>
+        </>, document.body
     );
 }
 
